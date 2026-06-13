@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rubex UI — We Build Digital Products That Scale</title>
+<meta name="description" content="Custom websites, web applications, and digital experiences designed to help businesses grow faster.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050816;
+  --surface:#0F172A;
+  --surface2:#162032;
+  --primary:#3B82F6;
+  --secondary:#06B6D4;
+  --accent:#8B5CF6;
+  --text:#F8FAFC;
+  --muted:#94A3B8;
+  --border:rgba(255,255,255,0.08);
+  --glow:rgba(59,130,246,0.15);
+  --font-head:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{cursor:pointer;border:none;background:none;font-family:var(--font-body)}
+
+/* PAGES */
+.page{display:none;min-height:100vh}
+.page.active{display:block}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;background:rgba(5,8,22,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:all .3s}
+.nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-family:var(--font-head);font-size:1.4rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.9rem;color:var(--muted);transition:color .2s;font-weight:500}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-cta{background:var(--primary);color:#fff;padding:.5rem 1.25rem;border-radius:8px;font-size:.9rem;font-weight:600;transition:all .2s}
+.nav-cta:hover{background:#2563eb;transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);transition:all .3s;border-radius:2px}
+.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--border);padding:1.5rem 5%;z-index:99;flex-direction:column;gap:1rem}
+.mobile-menu a{color:var(--muted);font-size:1rem;font-weight:500;padding:.5rem 0;border-bottom:1px solid var(--border)}
+.mobile-menu a:last-child{border-bottom:none}
+.mobile-menu.open{display:flex}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding-top:68px}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(59,130,246,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.06) 1px,transparent 1px);background-size:60px 60px}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.4}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(59,130,246,.3),transparent 70%);top:-200px;right:-100px;animation:float 8s ease-in-out infinite}
+.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,.25),transparent 70%);bottom:0;left:-100px;animation:float 10s ease-in-out infinite reverse}
+.orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(6,182,212,.2),transparent 70%);top:40%;left:30%;animation:float 12s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-30px) rotate(5deg)}}
+.hero-content{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 5%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);border-radius:100px;padding:.35rem 1rem;font-size:.8rem;color:var(--primary);font-weight:600;margin-bottom:1.5rem;letter-spacing:.05em}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--primary);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:var(--font-head);font-size:clamp(2.5rem,5vw,4rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:1.25rem}
+.hero h1 span{background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:520px;margin-bottom:2rem;line-height:1.7}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--primary);color:#fff;padding:.8rem 1.75rem;border-radius:10px;font-weight:600;font-size:.95rem;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-primary:hover{background:#2563eb;transform:translateY(-2px);box-shadow:0 8px 24px rgba(59,130,246,.4)}
+.btn-outline{background:transparent;color:var(--text);padding:.8rem 1.75rem;border-radius:10px;font-weight:600;font-size:.95rem;border:1px solid var(--border);transition:all .2s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-outline:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.05)}
+.hero-visual{position:relative}
+.hero-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem;margin-bottom:1rem;backdrop-filter:blur(10px);transition:transform .3s}
+.hero-card:hover{transform:translateY(-4px)}
+.hero-card-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.hero-card-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.hero-card-icon.blue{background:rgba(59,130,246,.15);color:var(--primary)}
+.hero-card-icon.purple{background:rgba(139,92,246,.15);color:var(--accent)}
+.hero-card-icon.cyan{background:rgba(6,182,212,.15);color:var(--secondary)}
+.hero-card h4{font-family:var(--font-head);font-weight:600;font-size:.95rem}
+.hero-card p{font-size:.82rem;color:var(--muted)}
+.progress-bar{height:4px;background:rgba(255,255,255,.08);border-radius:2px;margin-top:.75rem;overflow:hidden}
+.progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--primary),var(--secondary))}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
+.stat{text-align:center;padding:1.25rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:12px}
+.stat-num{font-family:var(--font-head);font-size:1.75rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-size:.78rem;color:var(--muted);margin-top:.25rem}
+
+/* SECTIONS */
+section{padding:6rem 5%}
+.container{max-width:1280px;margin:0 auto}
+.section-badge{display:inline-block;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:var(--primary);font-size:.78rem;font-weight:600;padding:.3rem .9rem;border-radius:100px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem}
+.section-title{font-family:var(--font-head);font-size:clamp(1.8rem,3.5vw,2.75rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem;line-height:1.15}
+.section-title span{background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section-sub{color:var(--muted);font-size:1.05rem;max-width:580px;line-height:1.7}
+.section-header{margin-bottom:3.5rem}
+.text-center{text-align:center}
+.text-center .section-sub{margin:0 auto}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.service-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:all .3s;position:relative;overflow:hidden;cursor:pointer}
+.service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--primary),var(--secondary));opacity:0;transition:opacity .3s}
+.service-card:hover{border-color:rgba(59,130,246,.3);transform:translateY(-4px);background:var(--surface2)}
+.service-card:hover::before{opacity:1}
+.service-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.25rem;background:rgba(59,130,246,.1);color:var(--primary)}
+.service-card h3{font-family:var(--font-head);font-size:1.1rem;font-weight:600;margin-bottom:.6rem}
+.service-card p{font-size:.9rem;color:var(--muted);line-height:1.6}
+.service-arrow{position:absolute;bottom:1.5rem;right:1.5rem;opacity:0;transition:all .3s;color:var(--primary);font-size:1.2rem}
+.service-card:hover .service-arrow{opacity:1;transform:translateX(4px)}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.why-item{padding:1.5rem;border:1px solid var(--border);border-radius:12px;transition:all .3s}
+.why-item:hover{border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.04)}
+.why-icon{font-size:1.5rem;margin-bottom:.75rem}
+.why-item h4{font-family:var(--font-head);font-weight:600;margin-bottom:.4rem;font-size:1rem}
+.why-item p{font-size:.88rem;color:var(--muted)}
+
+/* PORTFOLIO */
+.portfolio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem}
+.project-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .3s}
+.project-card:hover{border-color:rgba(59,130,246,.3);transform:translateY(-4px)}
+.project-img{height:200px;position:relative;overflow:hidden}
+.project-img-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;transition:transform .4s}
+.project-card:hover .project-img-bg{transform:scale(1.05)}
+.project-body{padding:1.5rem}
+.project-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem}
+.tag{font-size:.72rem;font-weight:600;padding:.2rem .6rem;border-radius:4px;background:rgba(59,130,246,.12);color:var(--primary);border:1px solid rgba(59,130,246,.2)}
+.project-body h3{font-family:var(--font-head);font-weight:600;font-size:1.05rem;margin-bottom:.4rem}
+.project-body p{font-size:.88rem;color:var(--muted);line-height:1.5}
+
+/* TESTIMONIALS */
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.testimonial-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:all .3s;position:relative}
+.testimonial-card::before{content:'"';position:absolute;top:1.25rem;right:1.75rem;font-size:4rem;color:rgba(59,130,246,.15);font-family:Georgia,serif;line-height:1}
+.testimonial-card:hover{border-color:rgba(59,130,246,.25);transform:translateY(-2px)}
+.stars{color:#F59E0B;margin-bottom:1rem;font-size:1rem;letter-spacing:2px}
+.testimonial-text{font-size:.95rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem}
+.testimonial-author{display:flex;align-items:center;gap:.75rem}
+.avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0}
+.author-name{font-weight:600;font-size:.9rem}
+.author-role{font-size:.8rem;color:var(--muted)}
+
+/* CTA SECTION */
+.cta-section{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:4rem;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(59,130,246,.1),transparent 70%)}
+.cta-section h2{font-family:var(--font-head);font-size:clamp(1.75rem,3vw,2.5rem);font-weight:700;margin-bottom:1rem}
+.cta-section p{color:var(--muted);font-size:1.05rem;margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* FOOTER */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:4rem 5% 2rem}
+.footer-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand p{color:var(--muted);font-size:.9rem;margin-top:.75rem;max-width:260px;line-height:1.6}
+.footer-col h5{font-family:var(--font-head);font-weight:600;font-size:.9rem;margin-bottom:1rem;color:var(--text)}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.footer-col ul li a{color:var(--muted);font-size:.88rem;transition:color .2s}
+.footer-col ul li a:hover{color:var(--text)}
+.footer-bottom{max-width:1280px;margin:0 auto;padding-top:2rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.footer-bottom p{color:var(--muted);font-size:.82rem}
+.social-links{display:flex;gap:.75rem}
+.social-link{width:36px;height:36px;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;transition:all .2s}
+.social-link:hover{border-color:rgba(59,130,246,.4);color:var(--primary);background:rgba(59,130,246,.08)}
+
+/* ABOUT PAGE */
+.about-hero{padding:10rem 5% 5rem;text-align:center;position:relative;overflow:hidden}
+.about-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center top,rgba(59,130,246,.1),transparent 60%)}
+.values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.value-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.75rem;text-align:center;transition:all .3s}
+.value-card:hover{border-color:rgba(59,130,246,.3);transform:translateY(-3px)}
+.value-icon{font-size:2rem;margin-bottom:1rem}
+.value-card h4{font-family:var(--font-head);font-weight:600;margin-bottom:.5rem}
+.value-card p{font-size:.88rem;color:var(--muted)}
+.process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;position:relative}
+.process-step{text-align:center;position:relative}
+.step-num{width:52px;height:52px;border-radius:50%;background:rgba(59,130,246,.1);border:2px solid rgba(59,130,246,.3);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:700;font-size:1.1rem;color:var(--primary);margin:0 auto 1rem}
+.process-step h4{font-family:var(--font-head);font-weight:600;font-size:1rem;margin-bottom:.4rem}
+.process-step p{font-size:.85rem;color:var(--muted)}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.team-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .3s;text-align:center}
+.team-card:hover{border-color:rgba(59,130,246,.3);transform:translateY(-4px)}
+.team-avatar{height:120px;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.team-body{padding:1.25rem}
+.team-body h4{font-family:var(--font-head);font-weight:600;margin-bottom:.25rem}
+.team-body p{font-size:.85rem;color:var(--muted)}
+.team-role{display:inline-block;background:rgba(59,130,246,.1);color:var(--primary);font-size:.75rem;font-weight:600;padding:.2rem .7rem;border-radius:4px;margin-top:.5rem}
+
+/* SERVICES PAGE */
+.service-detail-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;margin-bottom:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;transition:all .3s}
+.service-detail-card:hover{border-color:rgba(59,130,246,.25)}
+.service-detail-card:nth-child(even){direction:rtl}
+.service-detail-card:nth-child(even)>*{direction:ltr}
+.service-detail-icon{font-size:3rem;margin-bottom:1rem}
+.service-detail-card h3{font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:.75rem}
+.service-detail-card>div>p{color:var(--muted);font-size:.95rem;margin-bottom:1.25rem;line-height:1.7}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.feature-list li{display:flex;align-items:center;gap:.5rem;font-size:.9rem;color:var(--muted)}
+.feature-list li::before{content:'✓';color:var(--primary);font-weight:700;flex-shrink:0}
+.service-visual{background:var(--surface2);border-radius:12px;padding:2rem;display:flex;align-items:center;justify-content:center;min-height:200px;border:1px solid var(--border)}
+.service-visual-inner{text-align:center;color:var(--muted);font-size:.9rem}
+.service-visual-inner .big-icon{font-size:4rem;margin-bottom:.75rem;display:block}
+
+/* PORTFOLIO PAGE */
+.filter-tabs{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.filter-tab{padding:.5rem 1.25rem;border-radius:8px;border:1px solid var(--border);color:var(--muted);font-size:.88rem;font-weight:500;transition:all .2s;cursor:pointer}
+.filter-tab:hover,.filter-tab.active{border-color:var(--primary);color:var(--primary);background:rgba(59,130,246,.08)}
+.portfolio-full-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem}
+.portfolio-item{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .3s}
+.portfolio-item:hover{border-color:rgba(59,130,246,.35);transform:translateY(-4px)}
+.portfolio-img{height:220px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;transition:all .3s;position:relative}
+.portfolio-overlay{position:absolute;inset:0;background:rgba(5,8,22,.85);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.portfolio-item:hover .portfolio-overlay{opacity:1}
+.overlay-content{text-align:center;padding:1rem}
+.overlay-content a{background:var(--primary);color:#fff;padding:.65rem 1.5rem;border-radius:8px;font-weight:600;font-size:.9rem;display:inline-block}
+.portfolio-body{padding:1.5rem}
+.portfolio-body h3{font-family:var(--font-head);font-weight:600;font-size:1.05rem;margin-bottom:.4rem}
+.portfolio-body p{font-size:.88rem;color:var(--muted);margin-bottom:1rem}
+.results-badge{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:#10B981;font-size:.78rem;font-weight:600;padding:.2rem .6rem;border-radius:4px;display:inline-flex;align-items:center;gap:.3rem}
+
+/* CASE STUDIES */
+.case-study-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;margin-bottom:2rem}
+.case-study-header{display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;margin-bottom:2rem;flex-wrap:wrap}
+.case-study-meta{flex:1}
+.case-category{background:rgba(139,92,246,.1);color:var(--accent);font-size:.78rem;font-weight:600;padding:.25rem .7rem;border-radius:4px;display:inline-block;margin-bottom:.5rem}
+.case-study-meta h3{font-family:var(--font-head);font-size:1.5rem;font-weight:700;margin-bottom:.5rem}
+.case-study-meta p{color:var(--muted);font-size:.95rem}
+.case-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+.metric-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center}
+.metric-num{font-family:var(--font-head);font-size:1.75rem;font-weight:700;color:var(--primary);margin-bottom:.25rem}
+.metric-label{font-size:.8rem;color:var(--muted)}
+.case-sections{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.case-section{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+.case-section h5{font-family:var(--font-head);font-weight:600;font-size:.9rem;margin-bottom:.5rem;color:var(--primary)}
+.case-section p{font-size:.88rem;color:var(--muted);line-height:1.6}
+
+/* BLOG */
+.blog-layout{display:grid;grid-template-columns:1fr 300px;gap:3rem}
+.blog-main{display:flex;flex-direction:column;gap:1.5rem}
+.blog-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .3s;display:flex;flex-direction:column}
+.blog-card:hover{border-color:rgba(59,130,246,.3);transform:translateY(-3px)}
+.blog-card-img{height:160px;display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.blog-card-body{padding:1.5rem;flex:1}
+.blog-category{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--primary);margin-bottom:.5rem}
+.blog-card-body h3{font-family:var(--font-head);font-weight:600;font-size:1.05rem;margin-bottom:.5rem;line-height:1.4}
+.blog-card-body p{font-size:.88rem;color:var(--muted);margin-bottom:1rem;line-height:1.6}
+.blog-meta{display:flex;align-items:center;gap:1rem;font-size:.8rem;color:var(--muted)}
+.blog-sidebar{display:flex;flex-direction:column;gap:1.5rem}
+.sidebar-widget{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem}
+.sidebar-widget h4{font-family:var(--font-head);font-weight:600;font-size:.95rem;margin-bottom:1rem}
+.search-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.65rem 1rem;color:var(--text);font-size:.9rem;font-family:var(--font-body);outline:none;transition:border-color .2s}
+.search-input:focus{border-color:rgba(59,130,246,.4)}
+.search-input::placeholder{color:var(--muted)}
+.category-list{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.category-list li a{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:.88rem;padding:.4rem 0;border-bottom:1px solid var(--border);transition:color .2s}
+.category-list li:last-child a{border-bottom:none}
+.category-list li a:hover{color:var(--primary)}
+.cat-count{background:rgba(59,130,246,.1);color:var(--primary);font-size:.72rem;font-weight:600;padding:.15rem .5rem;border-radius:4px}
+.recent-post{display:flex;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border)}
+.recent-post:last-child{border-bottom:none;padding-bottom:0}
+.recent-post-icon{font-size:1.5rem;flex-shrink:0}
+.recent-post-title{font-size:.85rem;font-weight:500;line-height:1.4;margin-bottom:.2rem}
+.recent-post-date{font-size:.75rem;color:var(--muted)}
+
+/* CONTACT */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.contact-form-wrap{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem}
+.form-group{margin-bottom:1.25rem}
+.form-group label{display:block;font-size:.88rem;font-weight:500;margin-bottom:.4rem;color:var(--muted)}
+.form-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.7rem 1rem;color:var(--text);font-size:.9rem;font-family:var(--font-body);outline:none;transition:border-color .2s}
+.form-input:focus{border-color:rgba(59,130,246,.5)}
+.form-input::placeholder{color:rgba(148,163,184,.4)}
+textarea.form-input{resize:vertical;min-height:120px}
+select.form-input{appearance:none;cursor:pointer}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.contact-info{display:flex;flex-direction:column;gap:1.5rem}
+.contact-info-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.5rem;display:flex;align-items:flex-start;gap:1rem;transition:all .3s}
+.contact-info-card:hover{border-color:rgba(59,130,246,.3)}
+.contact-info-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;background:rgba(59,130,246,.1);flex-shrink:0}
+.contact-info-text h4{font-family:var(--font-head);font-weight:600;font-size:.95rem;margin-bottom:.25rem}
+.contact-info-text p{font-size:.88rem;color:var(--muted)}
+.faq-list{display:flex;flex-direction:column;gap:1rem}
+.faq-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.faq-question{padding:1.25rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;font-weight:500;font-size:.95rem;transition:color .2s}
+.faq-question:hover{color:var(--primary)}
+.faq-question .faq-icon{color:var(--muted);transition:transform .3s;flex-shrink:0}
+.faq-question.open .faq-icon{transform:rotate(45deg);color:var(--primary)}
+.faq-answer{padding:0 1.25rem;max-height:0;overflow:hidden;transition:all .3s;font-size:.9rem;color:var(--muted);line-height:1.7}
+.faq-answer.open{padding:0 1.25rem 1.25rem;max-height:300px}
+
+/* SUBMIT BTN */
+.btn-submit{width:100%;background:var(--primary);color:#fff;padding:1rem;border-radius:10px;font-weight:600;font-size:1rem;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.btn-submit:hover{background:#2563eb;transform:translateY(-1px);box-shadow:0 8px 20px rgba(59,130,246,.35)}
+
+/* SUCCESS MSG */
+.success-msg{display:none;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#10B981;border-radius:10px;padding:1rem;margin-top:1rem;font-size:.9rem;text-align:center}
+.success-msg.show{display:block}
+
+/* SCROLL ANIMATIONS */
+.reveal{opacity:0;transform:translateY(24px);transition:all .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-content{grid-template-columns:1fr;gap:3rem}
+  .hero-visual{display:none}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .blog-layout{grid-template-columns:1fr}
+  .blog-sidebar{flex-direction:row;flex-wrap:wrap}
+  .sidebar-widget{flex:1;min-width:240px}
+  .contact-layout{grid-template-columns:1fr}
+  .case-sections{grid-template-columns:1fr}
+  .service-detail-card{grid-template-columns:1fr}
+  .service-detail-card:nth-child(even){direction:ltr}
+}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .form-row{grid-template-columns:1fr}
+  .case-metrics{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .hero h1{font-size:2.2rem}
+  section{padding:4rem 5%}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#" onclick="showPage('home')">Rubex UI</a>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+      <li><a href="#" onclick="showPage('about')" id="nav-about">About</a></li>
+      <li><a href="#" onclick="showPage('services')" id="nav-services">Services</a></li>
+      <li><a href="#" onclick="showPage('portfolio')" id="nav-portfolio">Portfolio</a></li>
+      <li><a href="#" onclick="showPage('casestudies')" id="nav-casestudies">Case Studies</a></li>
+      <li><a href="#" onclick="showPage('blog')" id="nav-blog">Blog</a></li>
+      <li><a href="#" onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="#" onclick="showPage('contact')">Start a Project</a>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="showPage('home');toggleMenu()">Home</a>
+  <a href="#" onclick="showPage('about');toggleMenu()">About</a>
+  <a href="#" onclick="showPage('services');toggleMenu()">Services</a>
+  <a href="#" onclick="showPage('portfolio');toggleMenu()">Portfolio</a>
+  <a href="#" onclick="showPage('casestudies');toggleMenu()">Case Studies</a>
+  <a href="#" onclick="showPage('blog');toggleMenu()">Blog</a>
+  <a href="#" onclick="showPage('contact');toggleMenu()">Contact</a>
+</div>
+
+<!-- ============ HOME PAGE ============ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="grid-lines"></div>
+      <div class="orb orb1"></div>
+      <div class="orb orb2"></div>
+      <div class="orb orb3"></div>
+    </div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-badge">🚀 Premium Digital Agency</div>
+        <h1>We Build Digital Products <span>That Scale</span></h1>
+        <p>Custom websites, web applications, and digital experiences designed to help businesses grow faster and reach their full potential.</p>
+        <div class="hero-btns">
+          <a class="btn-primary" href="#" onclick="showPage('contact')">Start a Project →</a>
+          <a class="btn-outline" href="#" onclick="showPage('portfolio')">View Our Work</a>
+        </div>
+        <div class="stats-row">
+          <div class="stat"><div class="stat-num" id="cnt1">0</div><div class="stat-label">Projects Delivered</div></div>
+          <div class="stat"><div class="stat-num" id="cnt2">0</div><div class="stat-label">Happy Clients</div></div>
+          <div class="stat"><div class="stat-num" id="cnt3">0</div><div class="stat-label">Years of Excellence</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-card-icon blue">⚡</div>
+            <div><div class="hero-card-h4" style="font-family:var(--font-head);font-weight:600;font-size:.95rem">Performance Score</div><div style="font-size:.8rem;color:var(--muted)">Google Lighthouse</div></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem">
+            <span style="font-size:.85rem;color:var(--muted)">Performance</span>
+            <span style="font-family:var(--font-head);font-weight:700;color:#10B981">98</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:98%"></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin:0.5rem 0;margin-top:.75rem">
+            <span style="font-size:.85rem;color:var(--muted)">SEO</span>
+            <span style="font-family:var(--font-head);font-weight:700;color:#10B981">100</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.75rem;margin-bottom:.5rem">
+            <span style="font-size:.85rem;color:var(--muted)">Accessibility</span>
+            <span style="font-family:var(--font-head);font-weight:700;color:#10B981">97</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:97%"></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="hero-card">
+            <div class="hero-card-icon purple" style="margin-bottom:.75rem">🎨</div>
+            <div style="font-family:var(--font-head);font-weight:600;font-size:.9rem;margin-bottom:.25rem">UI/UX Design</div>
+            <div style="font-size:.8rem;color:var(--muted)">Pixel-perfect interfaces</div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-icon cyan" style="margin-bottom:.75rem">⚙️</div>
+            <div style="font-family:var(--font-head);font-weight:600;font-size:.9rem;margin-bottom:.25rem">Clean Code</div>
+            <div style="font-size:.8rem;color:var(--muted)">Scalable architecture</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES PREVIEW -->
+  <section style="padding:5rem 5%">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="section-badge">Our Services</div>
+        <h2 class="section-title">Everything You Need to <span>Succeed Online</span></h2>
+        <p class="section-sub">From stunning websites to complex web applications, we cover every aspect of your digital presence.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal" onclick="showPage('services')">
+          <div class="service-icon">🌐</div>
+          <h3>Website Development</h3>
+          <p>Blazing-fast, SEO-optimized websites that convert visitors into customers and stand out from the competition.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-card reveal" onclick="showPage('services')">
+          <div class="service-icon" style="background:rgba(139,92,246,.1);color:var(--accent)">📱</div>
+          <h3>Web Applications</h3>
+          <p>Complex, scalable web apps with modern architectures. From MVPs to enterprise-grade platforms.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-card reveal" onclick="showPage('services')">
+          <div class="service-icon" style="background:rgba(6,182,212,.1);color:var(--secondary)">🎨</div>
+          <h3>UI/UX Design</h3>
+          <p>Research-driven design systems and interfaces that delight users and drive business results.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-card reveal" onclick="showPage('services')">
+          <div class="service-icon" style="background:rgba(245,158,11,.1);color:#F59E0B">🛒</div>
+          <h3>E-Commerce Development</h3>
+          <p>High-converting online stores with seamless checkout experiences and inventory management.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-card reveal" onclick="showPage('services')">
+          <div class="service-icon" style="background:rgba(16,185,129,.1);color:#10B981">🚀</div>
+          <h3>SaaS Development</h3>
+          <p>Full-stack SaaS platforms with authentication, billing, dashboards, and multi-tenant architecture.</p>
+          <div class="service-arrow">→</div>
+        </div>
+        <div class="service-card reveal" onclick="showPage('services')">
+          <div class="service-icon" style="background:rgba(239,68,68,.1);color:#EF4444">🔗</div>
+          <h3>API Integrations</h3>
+          <p>Seamless third-party integrations, custom APIs, and automation workflows to streamline operations.</p>
+          <div class="service-arrow">→</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section style="padding:5rem 5%;background:rgba(15,23,42,.5)">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="section-badge">Why Rubex UI</div>
+        <h2 class="section-title">Built for Performance, <span>Designed for Growth</span></h2>
+        <p class="section-sub">We don't just build websites. We build digital assets that work hard for your business 24/7.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-item reveal">
+          <div class="why-icon">⚡</div>
+          <h4>Fast Delivery</h4>
+          <p>Structured sprints and clear timelines mean you launch on schedule, every time.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon">💎</div>
+          <h4>Clean Code</h4>
+          <p>Maintainable, well-documented code that your team can build on for years to come.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon">🔬</div>
+          <h4>Modern Technologies</h4>
+          <p>Next.js, React, TypeScript — we use the stack the best companies in the world rely on.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon">📈</div>
+          <h4>SEO Optimized</h4>
+          <p>Every site we build is engineered for search visibility from the ground up.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon">📐</div>
+          <h4>Fully Responsive</h4>
+          <p>Flawless experiences across all devices — desktop, tablet, and mobile.</p>
+        </div>
+        <div class="why-item reveal">
+          <div class="why-icon">🛡️</div>
+          <h4>Ongoing Support</h4>
+          <p>We're your long-term partner, not just a vendor. Support when you need it most.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO PREVIEW -->
+  <section style="padding:5rem 5%">
+    <div class="container">
+      <div class="section-header" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+        <div>
+          <div class="section-badge">Our Work</div>
+          <h2 class="section-title">Projects We're <span>Proud Of</span></h2>
+        </div>
+        <a class="btn-outline" href="#" onclick="showPage('portfolio')">View All Projects</a>
+      </div>
+      <div class="portfolio-grid">
+        <div class="project-card reveal">
+          <div class="project-img" style="background:linear-gradient(135deg,#0F172A,#1E3A5F)">
+            <div class="project-img-bg" style="background:linear-gradient(135deg,#0F172A,#1E3A5F)">💼</div>
+          </div>
+          <div class="project-body">
+            <div class="project-tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Stripe</span></div>
+            <h3>FinanceFlow SaaS</h3>
+            <p>A comprehensive financial management platform with real-time analytics, team billing, and automated reporting.</p>
+          </div>
+        </div>
+        <div class="project-card reveal">
+          <div class="project-img" style="background:linear-gradient(135deg,#0F172A,#1a0f2e)">
+            <div class="project-img-bg" style="background:linear-gradient(135deg,#0F172A,#1a0f2e)">🛍️</div>
+          </div>
+          <div class="project-body">
+            <div class="project-tags"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">Shopify</span></div>
+            <h3>LuxeCart E-Commerce</h3>
+            <p>Premium fashion e-commerce platform with AR try-on, wishlist sync, and personalized recommendations.</p>
+          </div>
+        </div>
+        <div class="project-card reveal">
+          <div class="project-img" style="background:linear-gradient(135deg,#0F172A,#0a2618)">
+            <div class="project-img-bg" style="background:linear-gradient(135deg,#0F172A,#0a2618)">🏥</div>
+          </div>
+          <div class="project-body">
+            <div class="project-tags"><span class="tag">Next.js</span><span class="tag">PostgreSQL</span><span class="tag">AWS</span></div>
+            <h3>MediLink Platform</h3>
+            <p>HIPAA-compliant healthcare appointment scheduling and patient management system.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section style="padding:5rem 5%;background:rgba(15,23,42,.5)">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="section-badge">Client Love</div>
+        <h2 class="section-title">What Our Clients <span>Say About Us</span></h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">Rubex UI transformed our outdated website into a revenue machine. Traffic is up 340% and conversions doubled within 3 months of launch. Truly exceptional work.</p>
+          <div class="testimonial-author">
+            <div class="avatar" style="background:rgba(59,130,246,.2);color:var(--primary)">SJ</div>
+            <div><div class="author-name">Sarah Johnson</div><div class="author-role">CEO, TechVentures Inc.</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">The team built our entire SaaS MVP in 8 weeks. Clean code, beautiful UI, and they thought of features we hadn't even considered. Best investment we've made.</p>
+          <div class="testimonial-author">
+            <div class="avatar" style="background:rgba(139,92,246,.2);color:var(--accent)">MC</div>
+            <div><div class="author-name">Marcus Chen</div><div class="author-role">Founder, CloudSync</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card reveal">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">Professional, fast, and communicative throughout. Our e-commerce store went from $50K to $200K monthly revenue in its first quarter after the redesign.</p>
+          <div class="testimonial-author">
+            <div class="avatar" style="background:rgba(6,182,212,.2);color:var(--secondary)">AP</div>
+            <div><div class="author-name">Aisha Patel</div><div class="author-role">Director, LuxeStyle Co.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="padding:5rem 5%">
+    <div class="container">
+      <div class="cta-section reveal">
+        <h2>Ready to Build Something <span style="background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Amazing?</span></h2>
+        <p>Join 150+ businesses who've transformed their digital presence with Rubex UI. Let's discuss your project today.</p>
+        <div class="cta-buttons">
+          <a class="btn-primary" href="#" onclick="showPage('contact')">Start Your Project →</a>
+          <a class="btn-outline" href="#" onclick="showPage('about')">Learn About Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="font-size:1.3rem">Rubex UI</div>
+        <p>Premium digital agency specializing in websites, web apps, and digital experiences that drive real business results.</p>
+        <div class="social-links" style="margin-top:1.25rem">
+          <a class="social-link" href="#">𝕏</a>
+          <a class="social-link" href="#">in</a>
+          <a class="social-link" href="#">gh</a>
+          <a class="social-link" href="#">▶</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#" onclick="showPage('services')">Website Development</a></li>
+          <li><a href="#" onclick="showPage('services')">Web Applications</a></li>
+          <li><a href="#" onclick="showPage('services')">UI/UX Design</a></li>
+          <li><a href="#" onclick="showPage('services')">E-Commerce</a></li>
+          <li><a href="#" onclick="showPage('services')">SaaS Development</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#" onclick="showPage('about')">About Us</a></li>
+          <li><a href="#" onclick="showPage('portfolio')">Portfolio</a></li>
+          <li><a href="#" onclick="showPage('casestudies')">Case Studies</a></li>
+          <li><a href="#" onclick="showPage('blog')">Blog</a></li>
+          <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="#">hello@rubexui.com</a></li>
+          <li><a href="#">+1 (555) 123-4567</a></li>
+          <li><a href="#">San Francisco, CA</a></li>
+          <li><a href="#">Mon–Fri 9am–6pm</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Rubex UI. All rights reserved.</p>
+      <div style="display:flex;gap:2rem">
+        <a href="#" style="color:var(--muted);font-size:.82rem">Privacy Policy</a>
+        <a href="#" style="color:var(--muted);font-size:.82rem">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ ABOUT PAGE ============ -->
+<div id="page-about" class="page">
+  <section class="about-hero">
+    <div class="section-badge">Our Story</div>
+    <h1 class="section-title" style="margin-top:.75rem">We're the Team Behind<br><span>Your Digital Success</span></h1>
+    <p style="color:var(--muted);max-width:580px;margin:1rem auto 0;font-size:1.1rem;line-height:1.7">Founded with a mission to bridge the gap between beautiful design and engineering excellence, Rubex UI has been helping businesses thrive online since 2019.</p>
+  </section>
+
+  <section style="padding:0 5% 5rem">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-bottom:5rem">
+        <div>
+          <div class="section-badge">Our Mission</div>
+          <h2 class="section-title" style="font-size:2rem;margin-top:.5rem">Turning Vision Into <span>Digital Reality</span></h2>
+          <p style="color:var(--muted);line-height:1.8;margin-bottom:1.25rem">We believe every business deserves a digital presence that truly represents its value. Our mission is to craft experiences so compelling they become your best salesperson — working around the clock to attract, engage, and convert.</p>
+          <p style="color:var(--muted);line-height:1.8">We combine strategic thinking with technical precision and design sensibility. Every pixel, every line of code, every decision is made with one goal in mind: measurable results for our clients.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="stat" style="padding:2rem 1.5rem"><div class="stat-num">150+</div><div class="stat-label" style="margin-top:.5rem">Projects Delivered</div></div>
+          <div class="stat" style="padding:2rem 1.5rem"><div class="stat-num">98%</div><div class="stat-label" style="margin-top:.5rem">Client Satisfaction</div></div>
+          <div class="stat" style="padding:2rem 1.5rem"><div class="stat-num">6+</div><div class="stat-label" style="margin-top:.5rem">Years Experience</div></div>
+          <div class="stat" style="padding:2rem 1.5rem"><div class="stat-num">40+</div><div class="stat-label" style="margin-top:.5rem">5-Star Reviews</div></div>
+        </div>
+      </div>
+
+      <!-- VALUES -->
+      <div class="section-header text-center">
+        <div class="section-badge">Our Values</div>
+        <h2 class="section-title">What We Stand For</h2>
+      </div>
+      <div class="values-grid" style="margin-bottom:5rem">
+        <div class="value-card reveal">
+          <div class="value-icon">🎯</div>
+          <h4>Results First</h4>
+          <p>We measure success by your outcomes, not just deliverables. Every decision ties back to your business goals.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="value-icon">🤝</div>
+          <h4>True Partnership</h4>
+          <p>We embed ourselves in your team, learn your domain, and become a genuine extension of your business.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="value-icon">💡</div>
+          <h4>Relentless Innovation</h4>
+          <p>We stay ahead of the curve so you never fall behind — always exploring new tools, patterns, and possibilities.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="value-icon">🔒</div>
+          <h4>Radical Transparency</h4>
+          <p>No surprises, no hidden costs. Clear communication, honest timelines, and proactive updates throughout.</p>
+        </div>
+      </div>
+
+      <!-- PROCESS -->
+      <div class="section-header text-center">
+        <div class="section-badge">Our Approach</div>
+        <h2 class="section-title">How We Work</h2>
+      </div>
+      <div class="process-steps reveal" style="margin-bottom:5rem">
+        <div class="process-step">
+          <div class="step-num">01</div>
+          <h4>Discovery</h4>
+          <p>Deep-dive into your business, goals, audience, and competitive landscape.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">02</div>
+          <h4>Strategy</h4>
+          <p>Build a roadmap: technology choices, timeline, milestones, and success metrics.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">03</div>
+          <h4>Design</h4>
+          <p>Wireframes, prototypes, and pixel-perfect UI that feels right before a line of code is written.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">04</div>
+          <h4>Development</h4>
+          <p>Clean, tested code in focused sprints with daily updates and weekly demos.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">05</div>
+          <h4>Launch</h4>
+          <p>Smooth deployment, performance testing, and handover with training and documentation.</p>
+        </div>
+      </div>
+
+      <!-- TEAM -->
+      <div class="section-header text-center">
+        <div class="section-badge">Meet the Team</div>
+        <h2 class="section-title">The People Behind <span>the Magic</span></h2>
+      </div>
+      <div class="team-grid">
+        <div class="team-card reveal">
+          <div class="team-avatar" style="background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(139,92,246,.15))">👨‍💻</div>
+          <div class="team-body">
+            <h4>Alex Rivera</h4>
+            <p>Co-founder with 10 years building products at Google and Stripe before starting Rubex UI.</p>
+            <span class="team-role">CEO & Lead Engineer</span>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-avatar" style="background:linear-gradient(135deg,rgba(6,182,212,.15),rgba(59,130,246,.15))">👩‍🎨</div>
+          <div class="team-body">
+            <h4>Maya Okafor</h4>
+            <p>Former design lead at Linear and Figma. Maya shapes every pixel of the experiences we deliver.</p>
+            <span class="team-role">Design Director</span>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-avatar" style="background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(6,182,212,.15))">👨‍🔬</div>
+          <div class="team-body">
+            <h4>Daniel Kim</h4>
+            <p>Full-stack architect with deep expertise in Next.js, cloud infrastructure, and system design.</p>
+            <span class="team-role">CTO & Architect</span>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-avatar" style="background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(239,68,68,.15))">👩‍💼</div>
+          <div class="team-body">
+            <h4>Priya Sharma</h4>
+            <p>Client strategy and growth. Priya ensures every engagement delivers measurable ROI.</p>
+            <span class="team-role">Head of Strategy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:0 5% 5rem">
+    <div class="container">
+      <div class="cta-section reveal">
+        <h2>Want to work with us?</h2>
+        <p>We're selective about the projects we take on — we want to do your project justice.</p>
+        <div class="cta-buttons">
+          <a class="btn-primary" href="#" onclick="showPage('contact')">Let's Talk →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="font-size:1.3rem">Rubex UI</div>
+        <p>Premium digital agency specializing in websites, web apps, and digital experiences.</p>
+      </div>
+      <div class="footer-col"><h5>Services</h5><ul><li><a href="#" onclick="showPage('services')">Website Development</a></li><li><a href="#" onclick="showPage('services')">Web Applications</a></li><li><a href="#" onclick="showPage('services')">UI/UX Design</a></li></ul></div>
+      <div class="footer-col"><h5>Company</h5><ul><li><a href="#" onclick="showPage('about')">About Us</a></li><li><a href="#" onclick="showPage('portfolio')">Portfolio</a></li><li><a href="#" onclick="showPage('blog')">Blog</a></li></ul></div>
+      <div class="footer-col"><h5>Contact</h5><ul><li><a href="#">hello@rubexui.com</a></li><li><a href="#">+1 (555) 123-4567</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Rubex UI. All rights reserved.</p></div>
+  </footer>
+</div>
+
+<!-- ============ SERVICES PAGE ============ -->
+<div id="page-services" class="page">
+  <section style="padding:10rem 5% 4rem;text-align:center;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center top,rgba(59,130,246,.08),transparent 60%)"></div>
+    <div style="position:relative">
+      <div class="section-badge">What We Do</div>
+      <h1 class="section-title" style="margin-top:.75rem">Services Built for <span>Modern Businesses</span></h1>
+      <p style="color:var(--muted);max-width:560px;margin:1rem auto 0;font-size:1.05rem">Every service we offer is designed to deliver measurable impact. No fluff — just work that moves the needle.</p>
+    </div>
+  </section>
+
+  <section style="padding:2rem 5% 6rem">
+    <div class="container">
+      <div class="service-detail-card reveal">
+        <div>
+          <div class="service-detail-icon">🌐</div>
+          <h3>Custom Website Development</h3>
+          <p>High-performance websites engineered for speed, SEO, and conversion. We build with Next.js and modern web standards to deliver sites that load in under 1 second and rank on page one.</p>
+          <ul class="feature-list">
+            <li>Next.js 15 with App Router</li>
+            <li>Core Web Vitals optimized (LCP &lt; 1.2s)</li>
+            <li>Schema markup & technical SEO built-in</li>
+            <li>CMS integration (Sanity, Contentful, or custom)</li>
+            <li>Analytics & conversion tracking</li>
+          </ul>
+          <a class="btn-primary" style="margin-top:1.5rem;display:inline-flex" href="#" onclick="showPage('contact')">Get a Quote →</a>
+        </div>
+        <div class="service-visual"><div class="service-visual-inner"><span class="big-icon">💻</span>Website Development</div></div>
+      </div>
+
+      <div class="service-detail-card reveal">
+        <div>
+          <div class="service-detail-icon">📱</div>
+          <h3>Web Application Development</h3>
+          <p>Complex, scalable web apps with real-time features, advanced data flows, and enterprise-grade reliability. From internal tools to consumer-facing products.</p>
+          <ul class="feature-list">
+            <li>React & Next.js full-stack applications</li>
+            <li>Real-time features with WebSockets</li>
+            <li>Role-based access control</li>
+            <li>PostgreSQL / MongoDB architecture</li>
+            <li>CI/CD pipelines & automated testing</li>
+          </ul>
+          <a class="btn-primary" style="margin-top:1.5rem;display:inline-flex" href="#" onclick="showPage('contact')">Start Your App →</a>
+        </div>
+        <div class="service-visual"><div class="service-visual-inner"><span class="big-icon">⚙️</span>Web Application</div></div>
+      </div>
+
+      <div class="service-detail-card reveal">
+        <div>
+          <div class="service-detail-icon">🎨</div>
+          <h3>UI/UX Design</h3>
+          <p>Research-driven design that puts users first. We create design systems, prototypes, and final UI that look world-class and perform even better.</p>
+          <ul class="feature-list">
+            <li>User research & persona development</li>
+            <li>Wireframing & interactive prototypes</li>
+            <li>Design system creation (Figma)</li>
+            <li>A/B testing & usability validation</li>
+            <li>Accessibility compliance (WCAG 2.2)</li>
+          </ul>
+          <a class="btn-primary" style="margin-top:1.5rem;display:inline-flex" href="#" onclick="showPage('contact')">Design Your Product →</a>
+        </div>
+        <div class="service-visual"><div class="service-visual-inner"><span class="big-icon">🎨</span>UI/UX Design</div></div>
+      </div>
+
+      <div class="service-detail-card reveal">
+        <div>
+          <div class="service-detail-icon">🛒</div>
+          <h3>E-Commerce Solutions</h3>
+          <p>Online stores engineered for maximum revenue. From product catalog architecture to checkout optimization, we build stores that convert.</p>
+          <ul class="feature-list">
+            <li>Custom Shopify or headless commerce</li>
+            <li>Stripe & PayPal payment integration</li>
+            <li>Inventory management & order tracking</li>
+            <li>Cart abandonment recovery flows</li>
+            <li>Mobile-first checkout optimization</li>
+          </ul>
+          <a class="btn-primary" style="margin-top:1.5rem;display:inline-flex" href="#" onclick="showPage('contact')">Build Your Store →</a>
+        </div>
+        <div class="service-visual"><div class="service-visual-inner"><span class="big-icon">🛒</span>E-Commerce</div></div>
+      </div>
+
+      <div class="service-detail-card reveal">
+        <div>
+          <div class="service-detail-icon">🚀</div>
+          <h3>SaaS Development</h3>
+          <p>End-to-end SaaS product development — from concept to a polished, subscription-ready platform that your customers will love and pay for month after month.</p>
+          <ul class="feature-list">
+            <li>Multi-tenant architecture</li>
+            <li>Stripe Billing & subscription management</li>
+            <li>Admin dashboards & analytics</li>
+            <li>Onboarding flows & user lifecycle</li>
+            <li>Scalable cloud infrastructure (AWS/Vercel)</li>
+          </ul>
+          <a class="btn-primary" style="margin-top:1.5rem;display:inline-flex" href="#" onclick="showPage('contact')">Build Your SaaS →</a>
+        </div>
+        <div class="service-visual"><div class="service-visual-inner"><span class="big-icon">🚀</span>SaaS Platform</div></div>
+      </div>
+
+      <div class="service-detail-card reveal">
+        <div>
+          <div class="service-detail-icon">🔗</div>
+          <h3>API Integration & Automation</h3>
+          <p>Connect your tools, automate your workflows, and eliminate manual work. We integrate third-party APIs and build custom automation solutions that save hours every week.</p>
+          <ul class="feature-list">
+            <li>REST & GraphQL API development</li>
+            <li>Zapier / Make / n8n workflow automation</li>
+            <li>CRM & ERP integrations</li>
+            <li>Data pipeline & ETL development</li>
+            <li>Webhook & event-driven architecture</li>
+          </ul>
+          <a class="btn-primary" style="margin-top:1.5rem;display:inline-flex" href="#" onclick="showPage('contact')">Automate Your Business →</a>
+        </div>
+        <div class="service-visual"><div class="service-visual-inner"><span class="big-icon">🔗</span>API & Automation</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:0 5% 5rem">
+    <div class="container">
+      <div class="cta-section reveal">
+        <h2>Not sure what you need?</h2>
+        <p>Book a free 30-minute strategy call. We'll listen, understand your goals, and tell you exactly what we'd recommend — no sales pitch.</p>
+        <div class="cta-buttons"><a class="btn-primary" href="#" onclick="showPage('contact')">Book Free Strategy Call →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo" style="font-size:1.3rem">Rubex UI</div><p>Premium digital agency. Custom websites, web apps, and digital experiences.</p></div>
+      <div class="footer-col"><h5>Services</h5><ul><li><a href="#">Website Development</a></li><li><a href="#">Web Applications</a></li><li><a href="#">UI/UX Design</a></li><li><a href="#">E-Commerce</a></li><li><a href="#">SaaS Development</a></li></ul></div>
+      <div class="footer-col"><h5>Company</h5><ul><li><a href="#" onclick="showPage('about')">About</a></li><li><a href="#" onclick="showPage('portfolio')">Portfolio</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
+      <div class="footer-col"><h5>Contact</h5><ul><li><a href="#">hello@rubexui.com</a></li><li><a href="#">+1 (555) 123-4567</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Rubex UI. All rights reserved.</p></div>
+  </footer>
+</div>
+
+<!-- ============ PORTFOLIO PAGE ============ -->
+<div id="page-portfolio" class="page">
+  <section style="padding:10rem 5% 4rem;text-align:center;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center top,rgba(139,92,246,.08),transparent 60%)"></div>
+    <div style="position:relative">
+      <div class="section-badge">Portfolio</div>
+      <h1 class="section-title" style="margin-top:.75rem">Work We're <span>Genuinely Proud Of</span></h1>
+      <p style="color:var(--muted);max-width:540px;margin:1rem auto 0;font-size:1.05rem">150+ projects delivered. Here's a selection of work that represents the range and depth of what we do.</p>
+    </div>
+  </section>
+
+  <section style="padding:1rem 5% 6rem">
+    <div class="container">
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterPortfolio('all',this)">All Projects</button>
+        <button class="filter-tab" onclick="filterPortfolio('website',this)">Websites</button>
+        <button class="filter-tab" onclick="filterPortfolio('webapp',this)">Web Apps</button>
+        <button class="filter-tab" onclick="filterPortfolio('ecommerce',this)">E-Commerce</button>
+        <button class="filter-tab" onclick="filterPortfolio('saas',this)">SaaS</button>
+      </div>
+      <div class="portfolio-full-grid" id="portfolioGrid">
+        <div class="portfolio-item" data-cat="saas">
+          <div class="portfolio-img" style="background:linear-gradient(135deg,#0d1b3e,#1a3a6e)"><span>💼</span><div class="portfolio-overlay"><div class="overlay-content"><a href="#" onclick="showPage('casestudies')">View Case Study</a></div></div></div>
+          <div class="portfolio-body">
+            <div class="project-tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Stripe</span></div>
+            <h3>FinanceFlow SaaS</h3>
+            <p>Financial management platform with team billing and real-time analytics. Serves 2,000+ monthly active users.</p>
+            <span class="results-badge">↑ 240% MRR growth</span>
+          </div>
+        </div>
+        <div class="portfolio-item" data-cat="ecommerce">
+          <div class="portfolio-img" style="background:linear-gradient(135deg,#1a0f2e,#3b1f5e)"><span>🛍️</span><div class="portfolio-overlay"><div class="overlay-content"><a href="#" onclick="showPage('casestudies')">View Case Study</a></div></div></div>
+          <div class="portfolio-body">
+            <div class="project-tags"><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">Shopify</span></div>
+            <h3>LuxeCart E-Commerce</h3>
+            <p>Premium fashion e-commerce with AR try-on and personalized recommendations.</p>
+            <span class="results-badge">↑ 4x revenue in Q1</span>
+          </div>
+        </div>
+        <div class="portfolio-item" data-cat="webapp">
+          <div class="portfolio-img" style="background:linear-gradient(135deg,#0a2618,#0f4026)"><span>🏥</span><div class="portfolio-overlay"><div class="overlay-content"><a href="#" onclick="showPage('casestudies')">View Case Study</a></div></div></div>
+          <div class="portfolio-body">
+            <div class="project-tags"><span class="tag">Next.js</span><span class="tag">PostgreSQL</span><span class="tag">AWS</span></div>
+            <h3>MediLink Platform</h3>
+            <p>HIPAA-compliant healthcare scheduling and patient management system.</p>
+            <span class="results-badge">↓ 60% admin time</span>
+          </div>
+        </div>
+        <div class="portfolio-item" data-cat="website">
+          <div class="portfolio-img" style="background:linear-gradient(135deg,#1a1000,#3d2800)"><span>🏢</span><div class="portfolio-overlay"><div class="overlay-content"><a href="#" onclick="showPage('casestudies')">View Case Study</a></div></div></div>
+          <div class="portfolio-body">
+            <div class="project-tags"><span class="tag">Next.js</span><span class="tag">Framer</span><span class="tag">Sanity</span></div>
+            <h3>Vertex Corporate Site</h3>
+            <p>Enterprise website for a Series B SaaS company with animated product demos and case study system.</p>
+            <span class="results-badge">↑ 340% organic traffic</span>
+          </div>
+        </div>
+        <div class="portfolio-item" data-cat="saas">
+          <div class="portfolio-img" style="background:linear-gradient(135deg,#0f1a2e,#162840)"><span>📊</span><div class="portfolio-overlay"><div class="overlay-content"><a href="#" onclick="showPage('casestudies')">View Case Study</a></div></div></div>
+          <div class="portfolio-body">
+            <div class="project-tags"><span class="tag">React</span><span class="tag">D3.js</span><span class="tag">Python</span></div>
+            <h3>DataVault Analytics</h3>
+            <p>Real-time data analytics platform with custom dashboards, alerts, and team collaboration.</p>
+            <span class="results-badge">↑ $2M ARR milestone</span>
+          </div>
+        </div>
+        <div class="portfolio-item" data-cat="ecommerce">
+          <div class="portfolio-img" style="background:linear-gradient(135deg,#0a1a0a,#1a3d1a)"><span>🥗</span><div class="portfolio-overlay"><div class="overlay-content"><a href="#" onclick="showPage('casestudies')">View Case Study</a></div></div></div>
+          <div class="portfolio-body">
+            <div class="project-tags"><span class="tag">Next.js</span><span class="tag">Stripe</span><span class="tag">Supabase</span></div>
+            <h3>FreshBox Subscription</h3>
+            <p>Meal kit subscription platform with dietary customization, pause/skip, and referral program.</p>
+            <span class="results-badge">↑ 12% churn reduction</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:0 5% 5rem">
+    <div class="container">
+      <div class="cta-section">
+        <h2>Have a project in mind?</h2>
+        <p>We'd love to add it to this portfolio. Let's build something remarkable together.</p>
+        <div class="cta-buttons"><a class="btn-primary" href="#" onclick="showPage('contact')">Start a Project →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo" style="font-size:1.3rem">Rubex UI</div><p>Premium digital agency. 150+ projects delivered.</p></div>
+      <div class="footer-col"><h5>Company</h5><ul><li><a href="#" onclick="showPage('about')">About</a></li><li><a href="#" onclick="showPage('services')">Services</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
+      <div class="footer-col"><h5>Work</h5><ul><li><a href="#" onclick="showPage('portfolio')">Portfolio</a></li><li><a href="#" onclick="showPage('casestudies')">Case Studies</a></li><li><a href="#" onclick="showPage('blog')">Blog</a></li></ul></div>
+      <div class="footer-col"><h5>Contact</h5><ul><li><a href="#">hello@rubexui.com</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Rubex UI. All rights reserved.</p></div>
+  </footer>
+</div>
+
+<!-- ============ CASE STUDIES PAGE ============ -->
+<div id="page-casestudies" class="page">
+  <section style="padding:10rem 5% 4rem;text-align:center;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center top,rgba(6,182,212,.07),transparent 60%)"></div>
+    <div style="position:relative">
+      <div class="section-badge">Case Studies</div>
+      <h1 class="section-title" style="margin-top:.75rem">Real Projects. <span>Real Results.</span></h1>
+      <p style="color:var(--muted);max-width:540px;margin:1rem auto 0;font-size:1.05rem">Detailed breakdowns of how we've helped businesses transform their digital presence and achieve measurable growth.</p>
+    </div>
+  </section>
+
+  <section style="padding:2rem 5% 6rem">
+    <div class="container">
+      <div class="case-study-card reveal">
+        <div class="case-study-header">
+          <div class="case-study-meta">
+            <span class="case-category">SaaS Platform</span>
+            <h3>FinanceFlow: From $0 to $2M ARR in 18 Months</h3>
+            <p>How we built the product engine behind a financial SaaS that scaled from idea to market leader in its niche.</p>
+          </div>
+          <div class="project-tags" style="flex-shrink:0"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Stripe</span><span class="tag">AWS</span></div>
+        </div>
+        <div class="case-metrics">
+          <div class="metric-box"><div class="metric-num">$2M</div><div class="metric-label">ARR at 18 months</div></div>
+          <div class="metric-box"><div class="metric-num">2,400</div><div class="metric-label">Monthly active users</div></div>
+          <div class="metric-box"><div class="metric-num">94%</div><div class="metric-label">User retention rate</div></div>
+        </div>
+        <div class="case-sections">
+          <div class="case-section">
+            <h5>The Challenge</h5>
+            <p>FinanceFlow needed an MVP in 8 weeks to hit a fundraising deadline. The product required real-time financial data, team collaboration, Stripe billing, and a dashboard complex enough to justify enterprise pricing — all while being intuitive enough for SMB owners.</p>
+          </div>
+          <div class="case-section">
+            <h5>Our Solution</h5>
+            <p>We scoped ruthlessly, cutting features that didn't serve the fundraise narrative. Built with Next.js App Router, Supabase for real-time, and Stripe Billing for subscriptions. Shipped MVP in 7 weeks, leaving time for user testing before the pitch.</p>
+          </div>
+          <div class="case-section">
+            <h5>Technologies</h5>
+            <p>Next.js 15, TypeScript, Supabase (PostgreSQL + Realtime), Stripe Billing, Recharts, TailwindCSS, Vercel, GitHub Actions CI/CD.</p>
+          </div>
+          <div class="case-section">
+            <h5>The Outcome</h5>
+            <p>Fundraise closed at a $4M pre-money valuation. Product launched publicly 6 weeks later. Grew to 2,400 MAU organically. Zero critical bugs in production in 12 months post-launch.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-study-card reveal">
+        <div class="case-study-header">
+          <div class="case-study-meta">
+            <span class="case-category" style="background:rgba(6,182,212,.1);color:var(--secondary)">E-Commerce</span>
+            <h3>LuxeCart: 4x Revenue Growth Through Conversion Engineering</h3>
+            <p>A premium fashion brand's complete digital transformation — from outdated Shopify theme to custom headless commerce platform.</p>
+          </div>
+          <div class="project-tags" style="flex-shrink:0"><span class="tag">Headless</span><span class="tag">React</span><span class="tag">Shopify</span></div>
+        </div>
+        <div class="case-metrics">
+          <div class="metric-box"><div class="metric-num">4x</div><div class="metric-label">Revenue in 3 months</div></div>
+          <div class="metric-box"><div class="metric-num">+38%</div><div class="metric-label">Conversion rate lift</div></div>
+          <div class="metric-box"><div class="metric-num">-420ms</div><div class="metric-label">Page load time</div></div>
+        </div>
+        <div class="case-sections">
+          <div class="case-section">
+            <h5>The Challenge</h5>
+            <p>LuxeCart's Shopify theme was slow (4.2s LCP), generic, and had a 2.1% conversion rate despite strong traffic. Mobile experience was particularly poor — 70% of visits but only 35% of revenue. Cart abandonment was at 82%.</p>
+          </div>
+          <div class="case-section">
+            <h5>Our Solution</h5>
+            <p>Rebuilt as headless commerce with Next.js and Shopify Storefront API. Custom product pages with zoom, video, and size guides. Redesigned one-page checkout. Push notification abandonment recovery. AR try-on integration for key SKUs.</p>
+          </div>
+          <div class="case-section">
+            <h5>Technologies</h5>
+            <p>Next.js 15, Shopify Storefront API, Stripe, Klaviyo, Vercel Edge Network, 8th.io AR SDK.</p>
+          </div>
+          <div class="case-section">
+            <h5>The Outcome</h5>
+            <p>LCP dropped to 0.8s. Conversion rate hit 2.9% (+38%). Mobile revenue share rose to 55%. Monthly revenue went from $48K to $196K in the first quarter post-launch.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-study-card reveal">
+        <div class="case-study-header">
+          <div class="case-study-meta">
+            <span class="case-category" style="background:rgba(16,185,129,.1);color:#10B981">Healthcare</span>
+            <h3>MediLink: Eliminating 60% of Administrative Overhead</h3>
+            <p>A HIPAA-compliant scheduling and patient management platform for a 12-location healthcare group.</p>
+          </div>
+          <div class="project-tags" style="flex-shrink:0"><span class="tag">Next.js</span><span class="tag">PostgreSQL</span><span class="tag">HIPAA</span></div>
+        </div>
+        <div class="case-metrics">
+          <div class="metric-box"><div class="metric-num">60%</div><div class="metric-label">Admin time saved</div></div>
+          <div class="metric-box"><div class="metric-num">$380K</div><div class="metric-label">Annual cost savings</div></div>
+          <div class="metric-box"><div class="metric-num">4.8★</div><div class="metric-label">Patient satisfaction</div></div>
+        </div>
+        <div class="case-sections">
+          <div class="case-section">
+            <h5>The Challenge</h5>
+            <p>Clinic staff spent 3+ hours daily managing appointments across phone, email, and three separate legacy systems. No-show rates were 28%. Patient data was siloed across locations with no unified view.</p>
+          </div>
+          <div class="case-section">
+            <h5>Our Solution</h5>
+            <p>Built a unified platform with online self-scheduling, automated SMS reminders, HIPAA-compliant patient records, staff availability management, and a real-time dashboard for clinic managers.</p>
+          </div>
+          <div class="case-section">
+            <h5>Technologies</h5>
+            <p>Next.js, PostgreSQL on RDS, Twilio SMS, AWS (HIPAA-eligible), Socket.io real-time updates, Terraform infrastructure as code.</p>
+          </div>
+          <div class="case-section">
+            <h5>The Outcome</h5>
+            <p>No-show rate dropped to 9% (67% reduction). Staff freed from scheduling work now focus on patient care. System handles 4,200 appointments/month across all locations seamlessly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo" style="font-size:1.3rem">Rubex UI</div><p>Premium digital agency. Measurable results, every time.</p></div>
+      <div class="footer-col"><h5>Company</h5><ul><li><a href="#" onclick="showPage('about')">About</a></li><li><a href="#" onclick="showPage('services')">Services</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
+      <div class="footer-col"><h5>Work</h5><ul><li><a href="#" onclick="showPage('portfolio')">Portfolio</a></li><li><a href="#" onclick="showPage('casestudies')">Case Studies</a></li></ul></div>
+      <div class="footer-col"><h5>Contact</h5><ul><li><a href="#">hello@rubexui.com</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Rubex UI. All rights reserved.</p></div>
+  </footer>
+</div>
+
+<!-- ============ BLOG PAGE ============ -->
+<div id="page-blog" class="page">
+  <section style="padding:10rem 5% 4rem;text-align:center;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center top,rgba(139,92,246,.08),transparent 60%)"></div>
+    <div style="position:relative">
+      <div class="section-badge">Blog</div>
+      <h1 class="section-title" style="margin-top:.75rem">Insights for the <span>Digital Builder</span></h1>
+      <p style="color:var(--muted);max-width:520px;margin:1rem auto 0;font-size:1.05rem">Practical articles on web development, design systems, business growth, and the technology shaping the future.</p>
+    </div>
+  </section>
+
+  <section style="padding:2rem 5% 6rem">
+    <div class="container">
+      <div class="blog-layout">
+        <div class="blog-main">
+          <div class="blog-card reveal">
+            <div class="blog-card-img" style="background:linear-gradient(135deg,#0d1b3e,#1e3a6e)">⚡</div>
+            <div class="blog-card-body">
+              <div class="blog-category">Next.js</div>
+              <h3>Next.js 15 App Router: Everything You Need to Know in 2025</h3>
+              <p>A comprehensive guide to the App Router, Server Components, streaming, and the patterns that the best teams are using in production today.</p>
+              <div class="blog-meta"><span>Alex Rivera</span><span>·</span><span>Jan 15, 2025</span><span>·</span><span>12 min read</span></div>
+            </div>
+          </div>
+          <div class="blog-card reveal">
+            <div class="blog-card-img" style="background:linear-gradient(135deg,#1a0f2e,#3b1f5e)">🎨</div>
+            <div class="blog-card-body">
+              <div class="blog-category">UI/UX</div>
+              <h3>Design Systems That Scale: From Startup to Enterprise Without Refactoring Everything</h3>
+              <p>How to architect a Figma design system and Tailwind token structure that can evolve with your product without creating technical debt.</p>
+              <div class="blog-meta"><span>Maya Okafor</span><span>·</span><span>Jan 8, 2025</span><span>·</span><span>9 min read</span></div>
+            </div>
+          </div>
+          <div class="blog-card reveal">
+            <div class="blog-card-img" style="background:linear-gradient(135deg,#0a2618,#0f4026)">📊</div>
+            <div class="blog-card-body">
+              <div class="blog-category">Business Growth</div>
+              <h3>The 5 Website Changes That Doubled Our Clients' Conversion Rates</h3>
+              <p>After analyzing 40+ redesign projects, these are the interventions that consistently move the needle — backed by before/after data.</p>
+              <div class="blog-meta"><span>Priya Sharma</span><span>·</span><span>Dec 22, 2024</span><span>·</span><span>7 min read</span></div>
+            </div>
+          </div>
+          <div class="blog-card reveal">
+            <div class="blog-card-img" style="background:linear-gradient(135deg,#1a1000,#3d2800)">🚀</div>
+            <div class="blog-card-body">
+              <div class="blog-category">React</div>
+              <h3>React Server Components vs. Client Components: The Definitive Guide for 2025</h3>
+              <p>Stop guessing which component type to use. Here's the mental model that makes the decision obvious every time.</p>
+              <div class="blog-meta"><span>Daniel Kim</span><span>·</span><span>Dec 15, 2024</span><span>·</span><span>15 min read</span></div>
+            </div>
+          </div>
+          <div class="blog-card reveal">
+            <div class="blog-card-img" style="background:linear-gradient(135deg,#0f1a2e,#162840)">🔐</div>
+            <div class="blog-card-body">
+              <div class="blog-category">Web Development</div>
+              <h3>How We Ship Production-Ready Auth in Under 2 Hours Using Clerk</h3>
+              <p>Authentication shouldn't take weeks. Here's our exact setup for social login, magic links, MFA, and role-based access — ready to copy.</p>
+              <div class="blog-meta"><span>Daniel Kim</span><span>·</span><span>Dec 5, 2024</span><span>·</span><span>11 min read</span></div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="blog-sidebar">
+          <div class="sidebar-widget">
+            <h4>Search Articles</h4>
+            <input type="text" class="search-input" placeholder="Search the blog...">
+          </div>
+          <div class="sidebar-widget">
+            <h4>Categories</h4>
+            <ul class="category-list">
+              <li><a href="#">Web Development <span class="cat-count">24</span></a></li>
+              <li><a href="#">UI/UX Design <span class="cat-count">18</span></a></li>
+              <li><a href="#">Next.js <span class="cat-count">15</span></a></li>
+              <li><a href="#">React <span class="cat-count">12</span></a></li>
+              <li><a href="#">Business Growth <span class="cat-count">9</span></a></li>
+              <li><a href="#">Technology <span class="cat-count">7</span></a></li>
+            </ul>
+          </div>
+          <div class="sidebar-widget">
+            <h4>Recent Posts</h4>
+            <div class="recent-post"><span class="recent-post-icon">⚡</span><div><div class="recent-post-title">Next.js 15 App Router Guide</div><div class="recent-post-date">Jan 15, 2025</div></div></div>
+            <div class="recent-post"><span class="recent-post-icon">🎨</span><div><div class="recent-post-title">Design Systems That Scale</div><div class="recent-post-date">Jan 8, 2025</div></div></div>
+            <div class="recent-post"><span class="recent-post-icon">📊</span><div><div class="recent-post-title">5 Changes That Doubled CVR</div><div class="recent-post-date">Dec 22, 2024</div></div></div>
+          </div>
+          <div class="sidebar-widget">
+            <h4>Newsletter</h4>
+            <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Get our best articles delivered to your inbox, twice a month.</p>
+            <input type="email" class="search-input" placeholder="your@email.com" style="margin-bottom:.75rem">
+            <button class="btn-submit" style="font-size:.9rem;padding:.75rem">Subscribe →</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo" style="font-size:1.3rem">Rubex UI</div><p>Practical insights for web development and business growth.</p></div>
+      <div class="footer-col"><h5>Company</h5><ul><li><a href="#" onclick="showPage('about')">About</a></li><li><a href="#" onclick="showPage('services')">Services</a></li><li><a href="#" onclick="showPage('contact')">Contact</a></li></ul></div>
+      <div class="footer-col"><h5>Blog</h5><ul><li><a href="#">Next.js</a></li><li><a href="#">UI/UX</a></li><li><a href="#">Business</a></li></ul></div>
+      <div class="footer-col"><h5>Contact</h5><ul><li><a href="#">hello@rubexui.com</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Rubex UI. All rights reserved.</p></div>
+  </footer>
+</div>
+
+<!-- ============ CONTACT PAGE ============ -->
+<div id="page-contact" class="page">
+  <section style="padding:10rem 5% 4rem;text-align:center;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center top,rgba(59,130,246,.08),transparent 60%)"></div>
+    <div style="position:relative">
+      <div class="section-badge">Get in Touch</div>
+      <h1 class="section-title" style="margin-top:.75rem">Let's Build Something <span>Together</span></h1>
+      <p style="color:var(--muted);max-width:520px;margin:1rem auto 0;font-size:1.05rem">Tell us about your project. We'll get back to you within one business day with initial thoughts and next steps.</p>
+    </div>
+  </section>
+
+  <section style="padding:2rem 5% 5rem">
+    <div class="container">
+      <div class="contact-layout">
+        <div class="contact-form-wrap reveal">
+          <h3 style="font-family:var(--font-head);font-size:1.3rem;font-weight:700;margin-bottom:1.5rem">Tell us about your project</h3>
+          <div class="form-row">
+            <div class="form-group"><label>Your Name</label><input type="text" class="form-input" placeholder="Alex Johnson"></div>
+            <div class="form-group"><label>Email Address</label><input type="email" class="form-input" placeholder="alex@company.com"></div>
+          </div>
+          <div class="form-group"><label>Company (optional)</label><input type="text" class="form-input" placeholder="Acme Inc."></div>
+          <div class="form-group">
+            <label>Project Budget</label>
+            <select class="form-input">
+              <option value="" disabled selected>Select your budget range</option>
+              <option>Under $5,000</option>
+              <option>$5,000 – $15,000</option>
+              <option>$15,000 – $50,000</option>
+              <option>$50,000 – $100,000</option>
+              <option>$100,000+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Project Details</label>
+            <textarea class="form-input" rows="5" placeholder="Tell us about your goals, timeline, and what you're hoping to build. The more detail, the better our initial response will be."></textarea>
+          </div>
+          <button class="btn-submit" onclick="submitForm()">Send Message →</button>
+          <div class="success-msg" id="successMsg">✓ Message sent! We'll be in touch within one business day.</div>
+        </div>
+
+        <div>
+          <div class="contact-info reveal" style="margin-bottom:2rem">
+            <div class="contact-info-card">
+              <div class="contact-info-icon">📧</div>
+              <div class="contact-info-text"><h4>Email Us</h4><p>hello@rubexui.com</p><p style="font-size:.8rem;color:rgba(148,163,184,.6);margin-top:.15rem">We respond within 4 hours</p></div>
+            </div>
+            <div class="contact-info-card">
+              <div class="contact-info-icon">📞</div>
+              <div class="contact-info-text"><h4>Call Us</h4><p>+1 (555) 123-4567</p><p style="font-size:.8rem;color:rgba(148,163,184,.6);margin-top:.15rem">Mon–Fri, 9am–6pm PST</p></div>
+            </div>
+            <div class="contact-info-card">
+              <div class="contact-info-icon">📍</div>
+              <div class="contact-info-text"><h4>Our Office</h4><p>548 Market St, San Francisco, CA 94104</p></div>
+            </div>
+            <div class="contact-info-card">
+              <div class="contact-info-icon">🗓️</div>
+              <div class="contact-info-text"><h4>Book a Call</h4><p>30-minute strategy session — free, no commitment</p></div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:1.5rem">
+            <h3 style="font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin-bottom:1.25rem">Frequently Asked Questions</h3>
+            <div class="faq-list">
+              <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">How long does a project take? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">A typical marketing website takes 4–6 weeks. Web applications and SaaS products range from 8–16 weeks depending on scope. We'll give you a specific timeline after our discovery call.</div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">What's your minimum project budget? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">We work on projects starting at $5,000 for smaller websites. Most of our clients invest between $15,000–$80,000. We're transparent about whether a scope fits a budget before any commitment.</div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Do you offer ongoing maintenance? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Yes. We offer monthly retainers for ongoing support, updates, and new features. Many clients work with us long-term as their dedicated development team.</div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">What's your payment structure? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">We typically use a 40/30/30 structure: 40% at project kickoff, 30% at design approval, 30% at launch. For larger projects, we can structure milestone-based payments.</div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">Can you work with our existing tech stack? <span class="faq-icon">+</span></div>
+                <div class="faq-answer">Usually yes. Our team is experienced across React, Next.js, Vue, Node.js, Python, and most major databases and cloud platforms. We'll assess your stack in the discovery phase.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo" style="font-size:1.3rem">Rubex UI</div><p>Ready to transform your digital presence? Let's talk.</p></div>
+      <div class="footer-col"><h5>Services</h5><ul><li><a href="#" onclick="showPage('services')">Website Development</a></li><li><a href="#" onclick="showPage('services')">Web Applications</a></li><li><a href="#" onclick="showPage('services')">UI/UX Design</a></li></ul></div>
+      <div class="footer-col"><h5>Company</h5><ul><li><a href="#" onclick="showPage('about')">About</a></li><li><a href="#" onclick="showPage('portfolio')">Portfolio</a></li><li><a href="#" onclick="showPage('blog')">Blog</a></li></ul></div>
+      <div class="footer-col"><h5>Contact</h5><ul><li><a href="#">hello@rubexui.com</a></li><li><a href="#">+1 (555) 123-4567</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Rubex UI. All rights reserved.</p></div>
+  </footer>
+</div>
+
+<script>
+// PAGE NAVIGATION
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + id);
+  if (navEl) navEl.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'instant'});
+  initReveal();
+}
+
+// MOBILE MENU
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// COUNTER ANIMATION
+function animateCounter(el, target, suffix) {
+  let start = 0;
+  const duration = 2000;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) { start = target; clearInterval(timer); }
+    el.textContent = Math.floor(start) + (suffix || '');
+  }, 16);
+}
+
+// START COUNTERS
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    animateCounter(document.getElementById('cnt1'), 150, '+');
+    animateCounter(document.getElementById('cnt2'), 98, '+');
+    animateCounter(document.getElementById('cnt3'), 6, '+');
+  }, 600);
+  initReveal();
+});
+
+// SCROLL REVEAL
+function initReveal() {
+  const els = document.querySelectorAll('.page.active .reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+}
+
+// PORTFOLIO FILTER
+function filterPortfolio(cat, btn) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#portfolioGrid .portfolio-item').forEach(item => {
+    if (cat === 'all' || item.dataset.cat === cat) {
+      item.style.display = '';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+// FAQ TOGGLE
+function toggleFaq(el) {
+  const answer = el.nextElementSibling;
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.classList.remove('open');
+    q.nextElementSibling.classList.remove('open');
+  });
+  if (!isOpen) {
+    el.classList.add('open');
+    answer.classList.add('open');
+  }
+}
+
+// CONTACT FORM
+function submitForm() {
+  const msg = document.getElementById('successMsg');
+  msg.classList.add('show');
+  setTimeout(() => msg.classList.remove('show'), 5000);
+}
+
+// INIT REVEAL ON LOAD
+document.addEventListener('DOMContentLoaded', initReveal);
+</script>
+</body>
+</html>
